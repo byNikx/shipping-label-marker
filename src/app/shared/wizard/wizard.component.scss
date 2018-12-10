@@ -1,0 +1,16 @@
+:host{
+    display: block;
+
+    .wizard-wrapper{
+        background-color: #fff;
+        padding: 2rem;
+
+        header{
+            margin-bottom: 2rem;
+        }
+
+        .step-container{
+            margin-top: 2rem;
+        }
+    }
+}

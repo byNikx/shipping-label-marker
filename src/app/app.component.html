@@ -1,20 +1,114 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
+<section style="width: 700px; margin: 2rem auto;">
+  <app-wizard [wizardContext]="context" (complete)="onComplete($event)" #wizard>
+    <app-wizard-header>Shipping Label Maker</app-wizard-header>
+    <mat-progress-bar [value]="wizard.progress"></mat-progress-bar>
+    <app-wizard-step name="to" [stepInfo]="receiverInfo">
+      <h2 class="mat-headline">Enter the receiver's address</h2>
+      <form class="flex-column" [formGroup]="receiverInfo">
+        <mat-form-field appearance="fill">
+          <mat-label>Receiver's Name</mat-label>
+          <input matInput formControlName="name" placeholder="Enter receiver's name here">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Street</mat-label>
+          <input matInput formControlName="street" placeholder="Enter street name here">
+        </mat-form-field>
+        <section class="flex-row">
+          <mat-form-field appearance="fill">
+            <mat-label>State</mat-label>
+            <mat-select formControlName="state" placeholder="Select">
+              <mat-option value="option">Option</mat-option>
+            </mat-select>
+            <mat-error></mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>City</mat-label>
+            <mat-select formControlName="city" placeholder="Select">
+              <mat-option value="option">Option</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Zip</mat-label>
+            <mat-select formControlName="zip" placeholder="Select">
+              <mat-option value="option">Option</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+        <section>
+          <button type="button" appWizardPrevStepDirective mat-button>Previous</button>
+          <button type="submit" [disabled]="!receiverInfo.valid" appWizardNextStepDirective color="primary"
+            mat-raised-button>Next</button>
+        </section>
+      </form>
+    </app-wizard-step>
+    <app-wizard-step name="from" [stepInfo]="senderInfo">
+      <h2 class="mat-headline">Enter the sender's address</h2>
+      <form class="flex-column" [formGroup]="senderInfo">
+        <mat-form-field appearance="fill">
+          <mat-label>Sender's Name</mat-label>
+          <input matInput formControlName="name" placeholder="Enter sender's name here">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Street</mat-label>
+          <input matInput formControlName="street" placeholder="Enter street name here">
+        </mat-form-field>
+        <section class="flex-row">
+          <mat-form-field appearance="fill">
+            <mat-label>State</mat-label>
+            <mat-select formControlName="state" placeholder="Select">
+              <mat-option value="option">Option</mat-option>
+            </mat-select>
+            <mat-error></mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>City</mat-label>
+            <mat-select formControlName="city" placeholder="Select">
+              <mat-option value="option">Option</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Zip</mat-label>
+            <mat-select formControlName="zip" placeholder="Select">
+              <mat-option value="option">Option</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+        <section>
+          <button type="button" appWizardPrevStepDirective mat-button>Previous</button>
+          <button type="submit" [disabled]="!senderInfo.valid" appWizardNextStepDirective color="primary"
+            mat-raised-button>Next</button>
+        </section>
+      </form>
+    </app-wizard-step>
+    <app-wizard-step [stepInfo]="weightInfo">
+      <h2 class="mat-headline">Enter the parcel's weight</h2>
+      <form class="flex-column" [formGroup]="weightInfo">
+        <mat-form-field appearance="fill">
+          <mat-label>Weight</mat-label>
+          <input type="number" matInput formControlName="weight" placeholder="Enter weight in kg">
+        </mat-form-field>
+        <section>
+          <button type="button" appWizardPrevStepDirective mat-button>Previous</button>
+          <button type="submit" [disabled]="!weightInfo.valid" appWizardNextStepDirective color="primary"
+            mat-raised-button>Next</button>
+        </section>
+      </form>
+    </app-wizard-step>
+    <app-wizard-step [stepInfo]="shippingOption">
+      <h2 class="mat-headline">Select Shipping priority</h2>
+      <form class="flex-column" [formGroup]="shippingOption">
+        <mat-form-field appearance="fill">
+          <mat-label>Zip</mat-label>
+          <mat-select formControlName="shippingOption" placeholder="Select">
+            <mat-option value="option">Option</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <section>
+          <button type="button" appWizardPrevStepDirective mat-button>Previous</button>
+          <button type="submit" [disabled]="!shippingOption.valid" appWizardEndDirective color="primary"
+            mat-raised-button>Done</button>
+        </section>
+      </form>
+    </app-wizard-step>
+  </app-wizard>
+</section>

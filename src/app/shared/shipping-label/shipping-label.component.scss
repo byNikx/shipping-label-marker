@@ -1,0 +1,46 @@
+.shipping-label-wrapper{
+    position: relative;
+
+    .shipping-label{
+        width: 100%;
+        border-collapse: collapse;
+
+        tr:first-child{
+            td:first-child{
+                width: 50px;
+                text-align: center;
+
+                &+td{
+                    text-align: right;
+                    vertical-align: middle;
+                }
+            }
+        }
+
+        tr:nth-child(2){
+            text-align: center;
+            td{
+                vertical-align: middle;
+            }
+        }
+
+        tr:nth-child(5){
+            td{
+                text-align: center;
+            }
+        }
+
+        .to, .from{
+            tr{
+                td{
+                    text-align: left;
+                }
+            }
+        }
+    }
+
+    button[mat-raised-button]{
+        display: block;
+        margin: 1rem auto 0 auto;
+    }
+}
