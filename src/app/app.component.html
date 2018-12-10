@@ -1,6 +1,6 @@
 <section style="width: 700px; margin: 2rem auto;">
-  <app-wizard [wizardContext]="context" (complete)="onComplete($event)" #wizard>
-    <app-wizard-header>Shipping Label Maker</app-wizard-header>
+  <app-wizard [wizardContext]="shippingInfo" (complete)="onComplete($event)" #wizard>
+    <app-wizard-header>App Title</app-wizard-header>
     <mat-progress-bar [value]="wizard.progress"></mat-progress-bar>
     <app-wizard-step name="to" [stepInfo]="receiverInfo">
       <h2 class="mat-headline">Enter the receiver's address</h2>
@@ -17,20 +17,22 @@
           <mat-form-field appearance="fill">
             <mat-label>State</mat-label>
             <mat-select formControlName="state" placeholder="Select">
-              <mat-option value="option">Option</mat-option>
+              <mat-option [value]="state.abbr" *ngFor="let state of dataService.states">{{state.name}}</mat-option>
             </mat-select>
             <mat-error></mat-error>
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>City</mat-label>
             <mat-select formControlName="city" placeholder="Select">
-              <mat-option value="option">Option</mat-option>
+                <mat-option value="Alexandria">Alexandria</mat-option>
+                <mat-option value="New York">New York</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>Zip</mat-label>
             <mat-select formControlName="zip" placeholder="Select">
-              <mat-option value="option">Option</mat-option>
+              <mat-option value="22333">22333</mat-option>
+              <mat-option value="10001">10001</mat-option>
             </mat-select>
           </mat-form-field>
         </section>
@@ -56,20 +58,22 @@
           <mat-form-field appearance="fill">
             <mat-label>State</mat-label>
             <mat-select formControlName="state" placeholder="Select">
-              <mat-option value="option">Option</mat-option>
+                <mat-option [value]="state.abbr" *ngFor="let state of dataService.states">{{state.name}}</mat-option>
             </mat-select>
             <mat-error></mat-error>
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>City</mat-label>
             <mat-select formControlName="city" placeholder="Select">
-              <mat-option value="option">Option</mat-option>
+              <mat-option value="Alexandria">Alexandria</mat-option>
+              <mat-option value="New York">New York</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>Zip</mat-label>
             <mat-select formControlName="zip" placeholder="Select">
-              <mat-option value="option">Option</mat-option>
+                <mat-option value="22333">22333</mat-option>
+                <mat-option value="10001">10001</mat-option>
             </mat-select>
           </mat-form-field>
         </section>
@@ -85,7 +89,7 @@
       <form class="flex-column" [formGroup]="weightInfo">
         <mat-form-field appearance="fill">
           <mat-label>Weight</mat-label>
-          <input type="number" matInput formControlName="weight" placeholder="Enter weight in kg">
+          <input type="number" min="1" matInput formControlName="weight" placeholder="Enter weight in kg">
         </mat-form-field>
         <section>
           <button type="button" appWizardPrevStepDirective mat-button>Previous</button>
@@ -98,9 +102,10 @@
       <h2 class="mat-headline">Select Shipping priority</h2>
       <form class="flex-column" [formGroup]="shippingOption">
         <mat-form-field appearance="fill">
-          <mat-label>Zip</mat-label>
+          <mat-label>Shipping Options</mat-label>
           <mat-select formControlName="shippingOption" placeholder="Select">
-            <mat-option value="option">Option</mat-option>
+              <mat-option value="1">GROUND</mat-option>
+              <mat-option value="2">PRIORITY</mat-option>
           </mat-select>
         </mat-form-field>
         <section>
@@ -111,4 +116,7 @@
       </form>
     </app-wizard-step>
   </app-wizard>
+  <ng-container *ngIf="completed">
+    <app-shipping-label [shippingInfo]="shippingInfo"></app-shipping-label>    
+  </ng-container>
 </section>

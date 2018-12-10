@@ -1,12 +1,23 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ShippingLabelComponent } from './shared/shipping-label/shipping-label.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { DataService } from './services/data.service';
+
+export function bootstrapFactory(http: HttpClient, data: DataService){
+  return ()=>new Promise((resolve, reject)=>{
+    http.get('./assets/states.json')
+      .toPromise()
+      .then(states=>{
+        data.states = states;
+        resolve();
+      });
+  });
+}
 
 @NgModule({
   declarations: [
@@ -16,10 +27,20 @@ import { ShippingLabelComponent } from './shared/shipping-label/shipping-label.c
     BrowserAnimationsModule,
     SharedModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: bootstrapFactory,
+      multi: true,
+      deps:[
+        HttpClient,
+        DataService
+      ]
+    }
+  ],
   bootstrap: [AppComponent],
-  entryComponents: [ShippingLabelComponent]
 })
 export class AppModule { }

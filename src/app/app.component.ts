@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import {
   FormGroup,
@@ -14,23 +15,33 @@ import {
   MAT_DIALOG_DATA
 } from '@angular/material';
 import { ShippingLabelComponent } from './shared/shipping-label/shipping-label.component';
+import { WizardComponent } from './shared/wizard/wizard.component';
+import { DataService } from './services/data.service';
 
+enum ShippingOption{
+  Ground = 1,
+  Priority = 2
+}
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'app';
-  context: any = {};
+  shippingInfo: any = {};
   receiverInfo: FormGroup;
   senderInfo: FormGroup;
   weightInfo: FormGroup;
   shippingOption: FormGroup;
+  shippingCost = 0;
+  completed: boolean;
+
+  @ViewChild(WizardComponent) wizard: WizardComponent;
 
   constructor(
     private dialog: MatDialog,
-    private _fb: FormBuilder) { }
+    private _fb: FormBuilder,
+    public dataService: DataService) { }
 
   ngOnInit() {
     this.receiverInfo = this._fb.group({
@@ -48,22 +59,26 @@ export class AppComponent implements OnInit {
       zip: new FormControl('', Validators.required)
     });
     this.weightInfo = this._fb.group({
-      weight: new FormControl(0, Validators.required)
+      weight: new FormControl('', [Validators.min(1), Validators.max(200)])
     });
     this.shippingOption = this._fb.group({
       shippingOption: new FormControl('', Validators.required)
     });
   }
-  onComplete(shippingInfo: any): void {
-    const dialogRef = this.dialog.open(ShippingLabelComponent, {
-      width: '300px',
-      data: shippingInfo
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
-    });
-    //    console.log(shippingInfo);
+  private _calculateShippingCost(weight, shippingOption){
+    const shippingRate = 0.40;
+    const cost = weight * shippingRate * 
+    (this.shippingInfo.shippingOption === ShippingOption.Ground? 1: 1.5);
+    return cost;
+  }
+
+  onComplete(info: any): void {
+    this.completed = true;
+    this.shippingInfo = info;
+    this.shippingCost = this._calculateShippingCost(this.shippingInfo.weight, this.shippingInfo.shippingOption);
+    this.shippingInfo.shippingCost = this.shippingCost;
+    this.wizard.hide();
   }
 
 }

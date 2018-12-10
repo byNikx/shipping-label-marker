@@ -9,7 +9,9 @@ import {
   EventEmitter,
   Directive,
   Host,
-  HostListener
+  HostListener,
+  ElementRef,
+  Renderer2
 } from '@angular/core';
 import { WizardStepComponent } from '../wizard-step/wizard-step.component';
 
@@ -26,17 +28,30 @@ enum WizardAction {
 })
 export class WizardComponent implements OnInit, AfterViewInit {
 
+  
 
   private _activeStep: WizardStepComponent;
   private _activeIndex = 0;
-  private progress = 0;
+  public progress = 0;
+  
+  private _nativeElement: HTMLElement;
+  set nativeElement(element: HTMLElement) {
+    this._nativeElement = element;
+  }
+  get nativeElement(): HTMLElement {
+    return this._nativeElement;
+  }
+  
+  
   @Input() wizardContext: any;
-  @ContentChildren(WizardStepComponent)
-  private _steps: QueryList<WizardStepComponent>;
-
   @Output() complete: EventEmitter<any> = new EventEmitter();
+  @ContentChildren(WizardStepComponent) private _steps: QueryList<WizardStepComponent>;
 
-  constructor() { }
+  constructor(
+    _element: ElementRef, 
+    private renderer: Renderer2) {
+    this.nativeElement = _element.nativeElement;
+  }
 
   ngOnInit() {
   }
@@ -66,6 +81,7 @@ export class WizardComponent implements OnInit, AfterViewInit {
       this._activeStep = nextStep;
     }
     this.progress += movement * (100 / this._steps.length);
+    console.log(this.progress);
   }
 
   next(): void {
@@ -76,6 +92,16 @@ export class WizardComponent implements OnInit, AfterViewInit {
   }
   end(): void {
     this.markComplete();
+  }
+  reset(): void{
+
+  }
+  show() {
+    this.renderer.setStyle(this.nativeElement, 'display', 'block');
+  }
+
+  hide() {
+    this.renderer.setStyle(this.nativeElement, 'display', 'none');
   }
 
   markComplete() {

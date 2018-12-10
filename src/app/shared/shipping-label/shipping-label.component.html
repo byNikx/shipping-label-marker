@@ -1,4 +1,5 @@
-<section class="shipping-label-wrapper">
+<section class="shipping-label-wrapper" *ngIf="data">
+<mat-card>
   <table border="1" class="shipping-label mat-body">
     <tr>
       <td>
@@ -10,7 +11,12 @@
     </tr>
     <tr>
       <td colspan="2">
-        <h2 class="mat-headline no-margin">PRIORITY MAIL</h2>
+        <h2 class="mat-headline no-margin">{{shippingOption}} MAIL</h2>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <strong>SHIPPING COST: </strong> {{shippingCost | currency}}
       </td>
     </tr>
     <tr>
@@ -22,18 +28,14 @@
             </td>
           </tr>
           <tr>
-            <td>
-              Nadeem Ahmad
-            </td>
+            <td [innerText]="from.name"></td>
+          </tr>
+          <tr>
+            <td [innerText]="from.street"></td>
           </tr>
           <tr>
             <td>
-              108/391/1 TGS Lucknow
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Lucknow, Uttar Pradesh 226001
+              {{from.city}}, {{from.state}} {{from.zip}}
             </td>
           </tr>
         </table>
@@ -48,18 +50,14 @@
             </td>
           </tr>
           <tr>
-            <td>
-              Nadeem Ahmad
-            </td>
+            <td [innerText]="to.name"></td>
+          </tr>
+          <tr>
+            <td [innerText]="to.street"></td>
           </tr>
           <tr>
             <td>
-              108/391/1 TGS Lucknow
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Lucknow, Uttar Pradesh 226001
+              {{to.city}}, {{to.state}} {{to.zip}}
             </td>
           </tr>
         </table>
@@ -71,7 +69,8 @@
       </td>
     </tr>
   </table>
-  <button mat-raised-button>
-    <mat-icon>print</mat-icon> PRINT
-  </button>
+</mat-card>
+<button mat-raised-button>
+  <mat-icon>print</mat-icon> PRINT
+</button>
 </section>

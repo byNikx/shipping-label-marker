@@ -32,7 +32,9 @@ export class WizardStepComponent implements OnInit, AfterViewInit, OnDestroy {
   private formSubscription: Subscription;
 
 
-  constructor(_element: ElementRef, private renderer: Renderer2) {
+  constructor(
+    _element: ElementRef, 
+    private renderer: Renderer2) {
     this.nativeElement = _element.nativeElement;
   }
 

@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
+enum ShippingOption{
+  Ground = 1,
+  Priority = 2
+}
 
 @Component({
   selector: 'app-shipping-label',
@@ -7,9 +13,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShippingLabelComponent implements OnInit {
 
-  constructor() { }
+  @Input('shippingInfo') data: any;
+  constructor(){}
 
   ngOnInit() {
+  }
+  
+  get from(){
+    return this.data.from;
+  }
+  get to(){
+    return this.data.to;
+  }
+  get weight(){
+    return this.data.weight;
+  }
+  get shippingOption(){
+    const option = this.data.shippingOption;
+    if(option === ShippingOption.Ground){
+      return 'PRIORITY';
+    }else{
+      return 'GROUND';
+    }
+  }
+
+  get shippingCost(){
+    return this.data.shippingCost;
   }
 
 }
