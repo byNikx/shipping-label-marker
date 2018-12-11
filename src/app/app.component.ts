@@ -9,12 +9,7 @@ import {
   FormControl,
   Validators
 } from '@angular/forms';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA
-} from '@angular/material';
-import { ShippingLabelComponent } from './shared/shipping-label/shipping-label.component';
+
 import { WizardComponent } from './shared/wizard/wizard.component';
 import { DataService } from './services/data.service';
 
@@ -39,7 +34,6 @@ export class AppComponent implements OnInit {
   @ViewChild(WizardComponent) wizard: WizardComponent;
 
   constructor(
-    private dialog: MatDialog,
     private _fb: FormBuilder,
     public dataService: DataService) { }
 
@@ -59,7 +53,7 @@ export class AppComponent implements OnInit {
       zip: new FormControl('', Validators.required)
     });
     this.weightInfo = this._fb.group({
-      weight: new FormControl('', [Validators.min(1), Validators.max(200)])
+      weight: new FormControl('', [Validators.required, Validators.min(1), Validators.max(200)])
     });
     this.shippingOption = this._fb.group({
       shippingOption: new FormControl('', Validators.required)
@@ -69,7 +63,7 @@ export class AppComponent implements OnInit {
   private _calculateShippingCost(weight, shippingOption){
     const shippingRate = 0.40;
     const cost = weight * shippingRate * 
-    (this.shippingInfo.shippingOption === ShippingOption.Ground? 1: 1.5);
+    (this.shippingInfo.shippingOption == ShippingOption.Ground? 1: 1.5);
     return cost;
   }
 

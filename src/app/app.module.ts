@@ -9,7 +9,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DataService } from './services/data.service';
 
 export function bootstrapFactory(http: HttpClient, data: DataService){
-  return ()=>new Promise((resolve, reject)=>{
+  return () => new Promise((resolve, reject)=>{
     http.get('./assets/states.json')
       .toPromise()
       .then(states=>{

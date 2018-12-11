@@ -1,6 +1,6 @@
 <section style="width: 700px; margin: 2rem auto;">
   <app-wizard [wizardContext]="shippingInfo" (complete)="onComplete($event)" #wizard>
-    <app-wizard-header>App Title</app-wizard-header>
+    <app-wizard-header>Shipping Label Maker</app-wizard-header>
     <mat-progress-bar [value]="wizard.progress"></mat-progress-bar>
     <app-wizard-step name="to" [stepInfo]="receiverInfo">
       <h2 class="mat-headline">Enter the receiver's address</h2>
@@ -111,12 +111,16 @@
         <section>
           <button type="button" appWizardPrevStepDirective mat-button>Previous</button>
           <button type="submit" [disabled]="!shippingOption.valid" appWizardEndDirective color="primary"
-            mat-raised-button>Done</button>
+            mat-raised-button>Confirm</button>
         </section>
       </form>
     </app-wizard-step>
   </app-wizard>
   <ng-container *ngIf="completed">
+    <h2 class="mat-headline">shippingInfo Object</h2>
+    <code>
+      <pre>{{shippingInfo | json}}</pre>
+    </code>
     <app-shipping-label [shippingInfo]="shippingInfo"></app-shipping-label>    
   </ng-container>
 </section>

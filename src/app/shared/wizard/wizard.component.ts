@@ -81,7 +81,6 @@ export class WizardComponent implements OnInit, AfterViewInit {
       this._activeStep = nextStep;
     }
     this.progress += movement * (100 / this._steps.length);
-    console.log(this.progress);
   }
 
   next(): void {
@@ -92,10 +91,7 @@ export class WizardComponent implements OnInit, AfterViewInit {
   }
   end(): void {
     this.markComplete();
-  }
-  reset(): void{
-
-  }
+  }  
   show() {
     this.renderer.setStyle(this.nativeElement, 'display', 'block');
   }

@@ -30,7 +30,7 @@ export class ShippingLabelComponent implements OnInit {
   }
   get shippingOption(){
     const option = this.data.shippingOption;
-    if(option === ShippingOption.Ground){
+    if(option == ShippingOption.Priority){
       return 'PRIORITY';
     }else{
       return 'GROUND';
