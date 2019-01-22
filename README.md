@@ -1,6 +1,8 @@
 
 # ShippingLabelMarker
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/byNikx/shipping-label-marker.svg)](https://greenkeeper.io/)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
 
 ## Application Description
